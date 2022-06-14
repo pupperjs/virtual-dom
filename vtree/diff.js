@@ -3,6 +3,7 @@ var isVNode = require("../vnode/is-vnode")
 var isVText = require("../vnode/is-vtext")
 var isWidget = require("../vnode/is-widget")
 var isThunk = require("../vnode/is-thunk")
+var isVComment = require("../vnode/is-vcomment")
 var handleThunk = require("../vnode/handle-thunk")
 
 var diffProps = require("./diff-props")
@@ -61,6 +62,13 @@ function walk(a, b, patch, index) {
             applyClear = true
         } else if (a.text !== b.text) {
             apply = appendPatch(apply, new VPatch(VPatch.VTEXT, a, b))
+        }
+    } else if (isVComment(b)) {
+        if (!isVComment(a)) {
+            apply = appendPatch(apply, new VPatch(VPatch.VCOMMENT, a, b))
+            applyClear = true
+        } else if (a.comment !== b.comment) {
+            apply = appendPatch(apply, new VPatch(VPatch.VCOMMENT, a, b))
         }
     } else if (isWidget(b)) {
         if (!isWidget(a)) {
