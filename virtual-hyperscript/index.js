@@ -25,6 +25,11 @@ function h(tagName, properties, children) {
         props = {};
     }
 
+    // If it's a comment
+    if (tagName.startsWith("!")) {
+        return new VComment(typeof children === "string" ? children : tagName.replace("!", ""));
+    }
+
     props = props || properties || {};
     tag = parseTag(tagName, props);
 
@@ -115,7 +120,7 @@ function transformProperties(props) {
 }
 
 function isChild(x) {
-    return isVNode(x) || isVText(x) || isWidget(x) || isVThunk(x) || isVComment(x);
+    return isVNode(x) || isVText(x) || isVComment(x) || isWidget(x) || isVThunk(x);
 }
 
 function isChildren(x) {

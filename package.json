@@ -11,6 +11,7 @@
     "patch",
     "browser"
   ],
+  "types": "./types/index.d.ts",
   "author": "Matt-Esch <matt@mattesch.info>",
   "repository": "git://github.com/Matt-Esch/virtual-dom.git",
   "main": "index",

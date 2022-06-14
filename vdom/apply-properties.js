@@ -21,8 +21,9 @@ function applyProperties(node, props, previous) {
                 patchObject(node, props, previous, propName, propValue);
             } else {
                 // Accepts "class" as property
-                if (propName === "class") {
-                    propName = "className"
+                if (propName === "className") {
+                    node[propName] = propValue;
+                    continue;
                 }
 
                 node.setAttribute(propName, propValue);
