@@ -1,5 +1,3 @@
-var isArray = require("x-is-array")
-
 var VPatch = require("../vnode/vpatch")
 var isVNode = require("../vnode/is-vnode")
 var isVText = require("../vnode/is-vtext")
@@ -418,7 +416,7 @@ function keyIndex(children) {
 
 function appendPatch(apply, patch) {
     if (apply) {
-        if (isArray(apply)) {
+        if (Array.isArray(apply)) {
             apply.push(patch)
         } else {
             apply = [apply, patch]

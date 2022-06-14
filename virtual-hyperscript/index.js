@@ -1,7 +1,5 @@
 'use strict';
 
-var isArray = require('x-is-array');
-
 var VNode = require('../vnode/vnode.js');
 var VText = require('../vnode/vtext.js');
 var isVNode = require('../vnode/is-vnode');
@@ -77,7 +75,7 @@ function addChild(c, childNodes, tag, props) {
         childNodes.push(new VText(String(c)));
     } else if (isChild(c)) {
         childNodes.push(c);
-    } else if (isArray(c)) {
+    } else if (Array.isArray(c)) {
         for (var i = 0; i < c.length; i++) {
             addChild(c[i], childNodes, tag, props);
         }
@@ -116,7 +114,7 @@ function isChild(x) {
 }
 
 function isChildren(x) {
-    return typeof x === 'string' || isArray(x) || isChild(x);
+    return typeof x === "string" || typeof x === "number" || Array.isArray(x) || isChild(x);
 }
 
 function UnexpectedVirtualElement(data) {

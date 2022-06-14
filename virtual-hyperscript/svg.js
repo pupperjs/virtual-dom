@@ -1,7 +1,5 @@
 'use strict';
 
-var isArray = require('x-is-array');
-
 var h = require('./index.js');
 
 
@@ -58,5 +56,5 @@ function svg(tagName, properties, children) {
 }
 
 function isChildren(x) {
-    return typeof x === 'string' || isArray(x);
+    return typeof x === 'string' || Array.isArray(x);
 }
