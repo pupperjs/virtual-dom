@@ -20,7 +20,12 @@ function applyProperties(node, props, previous) {
             if (isObject(propValue)) {
                 patchObject(node, props, previous, propName, propValue);
             } else {
-                node[propName] = propValue
+                // Accepts "class" as property
+                if (propName === "class") {
+                    propName = "className"
+                }
+
+                node.setAttribute(propName, propValue);
             }
         }
     }

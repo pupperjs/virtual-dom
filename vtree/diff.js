@@ -400,7 +400,11 @@ function keyIndex(children) {
         var child = children[i]
 
         if (child.key) {
-            keys[child.key] = i
+            if (keys[child.key]) {
+                throw new Error("Duplicate vdom key: " + child.key + ", vdom: " + selector(child));
+            } else {
+                keys[child.key] = i;
+            }
         } else {
             free.push(i)
         }

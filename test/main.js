@@ -9,6 +9,7 @@ var TextNode = require("../vnode/vtext")
 var version = require("../vnode/version")
 var assertEqualDom = require("./lib/assert-equal-dom.js")
 var patchCount = require("./lib/patch-count.js")
+var selector = require("../vnode/selector")
 
 
 
@@ -1027,6 +1028,12 @@ test("Different namespaces creates a patch", function (assert) {
     assert.end()
 })
 
+test("can pretty print node as selector", function (assert) {
+    var node = h("div", {id: "an-id", className: " class-1  class-2"})
+    assert.equal(selector(node), "div#an-id.class-1.class-2")
+    assert.end()
+})
+
 // Safely translates style values using the DOM in the browser
 function style(name, value) {
     var node = render(h())
@@ -1037,6 +1044,6 @@ function style(name, value) {
 // Determine if namespace is supported by the DOM
 function supportsNamespace() {
     var node = render(h())
-    return 'namespaceURI' in node;
+    return "namespaceURI" in node;
 }
 
