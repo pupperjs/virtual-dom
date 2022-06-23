@@ -112,7 +112,12 @@ namespace VirtualDOM {
     function h(tagName: string, properties: createProperties, children: string | VChild[]): VNode;
     function h(tagName: string, children: string | VChild[]): VNode;
 
-    declare function c(comment: string): VComment;
+    /**
+     * Creates a virtual comment node.
+     * @param comment The comment contents.
+     * @param properties The comment hooks.
+     */
+    declare function c(comment: string, properties?: createProperties): VComment;
 
     h.c = c;
 

@@ -1,49 +1,59 @@
-var document = require("global/document")
+const document = require("global/document")
 
-var applyProperties = require("./apply-properties")
+const applyProperties = require("./apply-properties")
 
-var isVNode = require("../vnode/is-vnode.js")
-var isVText = require("../vnode/is-vtext.js")
-var isVComment = require("../vnode/is-vcomment.js")
-var isWidget = require("../vnode/is-widget.js")
-var handleThunk = require("../vnode/handle-thunk.js")
+const isVNode = require("../vnode/is-vnode.js")
+const isVText = require("../vnode/is-vtext.js")
+const isVComment = require("../vnode/is-vcomment.js")
+const isWidget = require("../vnode/is-widget.js")
+const handleThunk = require("../vnode/handle-thunk.js")
 
 module.exports = createElement
 
 function createElement(vnode, opts) {
-    var doc = opts ? opts.document || document : document
-    var warn = opts ? opts.warn : null
+    const doc = opts?.document || document;
+    const warn = opts?.warn || null;
 
-    vnode = handleThunk(vnode).a
+    vnode = handleThunk(vnode).a;
 
     if (isWidget(vnode)) {
-        return vnode.init()
-    } else if (isVText(vnode)) {
-        return doc.createTextNode(vnode.text)
-    } else if (isVComment(vnode)) {
-        return doc.createComment(vnode.comment)
-    } else if (!isVNode(vnode)) {
+        return vnode.init();
+    } else
+    if (isVText(vnode)) {
+        return doc.createTextNode(vnode.text);
+    } else
+    if (isVComment(vnode)) {
+        const comment = doc.createComment(vnode.comment);
+
+        // Using apply properties to apply hooks
+        applyProperties(comment, vnode.properties);
+
+        return comment;
+    } else
+    if (!isVNode(vnode)) {
         if (warn) {
-            warn("Item is not a valid virtual dom node", vnode)
+            warn("Item is not a valid virtual dom node", vnode);
         }
-        return null
+
+        return null;
     }
 
-    var node = (vnode.namespace === null) ?
+    const node = (vnode.namespace === null) ?
         doc.createElement(vnode.tagName.toLowerCase()) :
         doc.createElementNS(vnode.namespace, vnode.tagName.toLowerCase())
 
-    var props = vnode.properties
-    applyProperties(node, props)
+    const props = vnode.properties;
+    applyProperties(node, props);
 
-    var children = vnode.children
+    const children = vnode.children;
 
-    for (var i = 0; i < children.length; i++) {
-        var childNode = createElement(children[i], opts)
+    for (let i = 0; i < children.length; i++) {
+        const childNode = createElement(children[i], opts);
+        
         if (childNode) {
-            node.appendChild(childNode)
+            node.appendChild(childNode);
         }
     }
 
-    return node
+    return node;
 }

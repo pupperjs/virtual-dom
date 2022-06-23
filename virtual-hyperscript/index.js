@@ -74,8 +74,8 @@ function h(tagName, properties, children) {
     return new VNode(tag, props, childNodes, key, namespace);
 }
 
-h.c = function(comment) {
-    return new VComment(comment) 
+h.c = function(comment, properties = null) {
+    return new VComment(comment, properties) 
 }
 
 function addChild(c, childNodes, tag, props) {
